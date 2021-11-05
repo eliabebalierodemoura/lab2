@@ -1,0 +1,75 @@
+
+/**
+ * Estudent Name : Eliabe Baliero De Moura ID = 24066
+ *
+ *
+ **/
+
+public class threadsLab2{
+     public static void main(String[] args){
+       
+         
+         
+     
+       Runnable joes = new SharingAResource("Eat at Joe's ", 2, 2); 
+      
+       Runnable bills = new SharingAResource("Eat at bill's ", 2, 4); 
+       
+       Thread j = new Thread(joes);
+       j.start();
+       
+       Thread b = new Thread(bills);
+       b.start();
+
+       /*System.out.println("Billboard started");
+         try {
+          j.join(); 
+          b.join();
+          
+        }
+        catch(InterruptedException e){
+            return;
+        }
+        System.out.println("Billboard closed");   */
+      
+     
+    }
+}
+    
+  class SharingAResource implements Runnable{
+      
+      String message;
+      int counter;
+      int pause;
+      static Object screen = new Object();
+      
+      public SharingAResource(String message, int counter, int pause){
+        this.message = message;
+        this.counter = counter;
+        this.pause = pause * 1000;
+       
+        }
+    
+    
+    
+    public void run(){
+          synchronized(screen){
+              System.out.println("Enterd the synchronized block, no other thread can use this");
+            for(int i =0; i<counter; i++){
+                try{
+                    Thread.sleep(this.pause);
+                } catch(InterruptedException e){
+                    return;
+                }
+                System.out.println(this.message);
+            }
+            
+           System.out.println("Exit the synchronized block,  other thread can use this");
+        }
+    }
+}
+  
+
+
+
+   
